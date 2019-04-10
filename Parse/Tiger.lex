@@ -1,10 +1,13 @@
 package Parse;
 
+import java_cup.runtime.Symbol;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 %%
 
-
-%type java_cup.runtime.Symbol
 
 %{
     private java_cup.runtime.Symbol tok(int kind, Object value) {

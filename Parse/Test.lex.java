@@ -11,10 +11,6 @@ class Yylex {
 	private final int YY_NO_ANCHOR = 4;
 	private final int YY_BOL = 128;
 	private final int YY_EOF = 129;
-
-    private java_cup.runtime.Symbol tok(int kind, Object value) {
-        return new java_cup.runtime.Symbol(kind, yychar, yychar+yylength(), value);
-    }
 	private java.io.BufferedReader yy_reader;
 	private int yy_buffer_index;
 	private int yy_buffer_read;
@@ -201,7 +197,7 @@ class Yylex {
 		/* 4 */ YY_NO_ANCHOR
 	};
 	private int yy_cmap[] = unpackFromString(1,130,
-"0:10,2,0:21,1,0:11,3,0:83,4:2")[0];
+"0:10,2,0:21,1,0:13,3,0:81,4:2")[0];
 
 	private int yy_rmap[] = unpackFromString(1,5,
 "0,1:4")[0];
@@ -209,7 +205,7 @@ class Yylex {
 	private int yy_nxt[][] = unpackFromString(2,5,
 "-1,1,2,3,4,-1:5");
 
-	public java_cup.runtime.Symbol yylex ()
+	public Yytoken yylex ()
 		throws java.io.IOException {
 		int yy_lookahead;
 		int yy_anchor = YY_NO_ANCHOR;
@@ -231,10 +227,7 @@ class Yylex {
 			yy_next_state = YY_F;
 			yy_next_state = yy_nxt[yy_rmap[yy_state]][yy_cmap[yy_lookahead]];
 			if (YY_EOF == yy_lookahead && true == yy_initial) {
-
-    {
-        return tok(sym.EOF, null);
-    }
+				return null;
 			}
 			if (YY_F != yy_next_state) {
 				yy_state = yy_next_state;
@@ -261,11 +254,11 @@ class Yylex {
 					case -2:
 						break;
 					case 2:
-						{newline();}
+						{System.out.print("newline");}
 					case -3:
 						break;
 					case 3:
-						{return tok(sym.VIRG, null);}
+						{System.out.print("Error");}
 					case -4:
 						break;
 					case 4:
