@@ -5,4 +5,6 @@ flex:
 
 clear:
 	rm -f *.class
+	rm -f *.class~
 	rm -f *.java
+	rm -f *.java~
