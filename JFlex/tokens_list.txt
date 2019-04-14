@@ -1,0 +1,63 @@
+Palavras-reservadas
+- nil	<nil>
+- if	<if>
+- then	<then>
+- else	<else>
+- while	<while>
+- do	<do>
+- for	<for>
+- to	<to>    
+- break	<break>
+- let	<let>
+- in	<in>
+- end	<end>
+- type	<type>
+- var	<var>
+- function	<function>
+- array	<array>
+- of	<of>
+
+Operador de Comparação
+- =	<eq_comp>
+- <>    <neq_comp>
+- < <lt_comp>
+- >	<gt_comp
+- <=    <le_comp>
+- >=	<ge_comp>
+
+Operadores de atritmetica
+- +	<plus_arit>
+- -	<minus_arit>
+- *	<multi_arit>
+- /	<div_arit>
+
+Operadores Booleanos
+- &	<and_bool>
+- |	<or_bool>
+
+Parêntesis
+- (	<left_paren>
+- )	<right_paren>
+
+Colchetes
+- [	<left_bracket>
+- ]	<right_bracket>
+
+Chaves
+- {	<left_brace>
+- }	<right_brace>
+
+Atribuição
+- :=	<assign>
+
+Outros
+- :	<colon>
+- ;	<semicolon>
+- ,	<comma>
+- .	<dot>
+
+Literal inteiro
+- Seguencia de digitos decimais	<num, "numero">
+
+Literal string
+- Sequencia de caracteres <string, "string">
