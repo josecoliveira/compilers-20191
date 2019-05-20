@@ -1,11 +1,32 @@
-%%
+import java_cup.runtime.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
-%standalone
+%%
+%public
+%class Scanner
+%implements sym
+
 %line
 %column
 
+%cup
+
+%{
+	String TOKENS_FILENAME = "tokens_list.txt";
+
+	FileWriter fw = null;
+	BufferedWriter bw =null;
+%}
+
+%init{
+	fw = new FileWriter(TOKENS_FILENAME);
+	bw = new BufferedWriter(fw);
+%init}
+
 %eof{
-    // System.out.println("Numeros de A's = " + numA); 
+	bw.close();
+	fw.close();
 %eof}
 
 %%

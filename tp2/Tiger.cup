@@ -1,15 +1,14 @@
 import java_cup.runtime.*;
 
 parser code {:
-  public static void main() {
-    scanner s;
-    Parser(scanner s){ this.s=s; }
+  public parser (java.io.Reader input) {
+    super(new Lexer(input));
   }
 :}
 
 /* define how to connect to the scanner! */
-init with {: s.init(); :};
-scan with {: return s.next_token(); :};
+// init with {: s.init(); :};
+// scan with {: return s.next_token(); :};
 
 /* Terminals (tokens returned by the scanner). */
 terminal            SEMI, PLUS, MINUS, TIMES, UMINUS, LPAREN, RPAREN;
