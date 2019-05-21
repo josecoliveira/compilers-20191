@@ -1,0 +1,6 @@
+let
+    function multiplicacao(x1: int, x2: int) : int = x1 * x2
+    var resultado : int := 0
+in
+    resultado := multiplicacao("2", "10")
+end

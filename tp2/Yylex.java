@@ -578,7 +578,7 @@ class Yylex implements java_cup.runtime.Scanner {
 						break;
 					case 26:
 						{
-  System.out.println("\n\n[ERROR] Illegal character: "+yytext());
+  System.out.println("\n\n[ERROR] Illegal character: " + yytext());
 	System.exit(1);
 }
 					case -27:
