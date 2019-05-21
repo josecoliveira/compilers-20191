@@ -65,7 +65,7 @@ exp ::= l_value {: System.out.println("exp -> l_value"); :}
     | exp GECOMP exp {: System.out.println("exp -> exp \">=\" exp"); :}
     | exp ANDBOOL exp {: System.out.println("exp -> exp \"&\" exp"); :}
     | exp ORBOOL exp {: System.out.println("exp -> exp \"|\" exp"); :}
-    | type_id LBRACE ID EQCOMP exp idexps RBRACE {: System.out.println("exp -> type_id \"{\" id \"=\" exp idexps"}); :}
+    | type_id LBRACE ID EQCOMP exp idexps RBRACE {: System.out.println("exp -> type_id \"{\" id \"=\" exp idexps"); :}
     | type_id LBRACKET exp RBRACKET OF exp {: System.out.println("exp -> type_id \"[\" exp \"]\" of exp"); :}
     | l_value ASSIGN exp {: System.out.println("exp -> l_value \":=\" exp"); :}
     | IF exp THEN exp ELSE exp {: System.out.println("exp -> if exp then exp else exp"); :}

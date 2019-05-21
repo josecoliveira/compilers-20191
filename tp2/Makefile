@@ -2,7 +2,7 @@ run:
 	javac JLex/Main.java
 	java JLex.Main *.lex
 	mv *.lex.java Yylex.java
-	java -jar java_cup/java-cup-11b.jar -interface -parser parser -expect 2  *.cup
+	java -jar java_cup/java-cup-11b.jar -interface -parser parser -expect 10  *.cup
 	javac -d . -cp java_cup/java-cup-11b-runtime.jar *.java
 	java -cp java_cup/java-cup-11b-runtime.jar:. lexsyn.parser < test.tig
 
