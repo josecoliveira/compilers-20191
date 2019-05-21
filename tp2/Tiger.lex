@@ -297,7 +297,7 @@ type {
 
 
 
-(\"(.*?)\") {
+(\"((.*)?)\") {
     // System.out.print("<STRING, \"" + yytext() + "\"> ");
     fw.write("<STRING, \"" + yytext() + "\"> ");
     return new Symbol(sym.STRING, new String(yytext()));
