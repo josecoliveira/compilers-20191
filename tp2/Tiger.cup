@@ -12,8 +12,21 @@ parser code {:
 :}
 
 /* Terminals (tokens returned by the scanner). */
-terminal            IF, LCBRACK, SEMI, PLUS, MINUS, TIMES, UMINUS, LPAREN, RPAREN;
-terminal Integer    NUMBER;        // our scanner provides numbers as integers
+terminal ARRAY;
+terminal IF, THEN, ELSE;
+terminal WHILE, FOR, TO, DO;
+terminal LET, IN, END, OF, BREAK, NIL, FUNCTION, VAR, TYPE;
+terminal COMMA, COLON, SEMICOLON;
+terminal LPAREN, RPAREN;
+terminal LBRACKET, RBRACKET;
+terminal LBRACE, RBRACE;
+terminal DOT;
+terminal PLUS, MINUS, TIMES, DIV;
+terminal EQCOMP, NEQCOMP, LTCOMP, LECOMP, GTCOMP, GECOMP;
+terminal ANDBOOL, ORBOOL;
+terminal ASSIGN;
+terminal STRING, ID, NUM;
+terminal UMINUS;
 
 /* Non terminals */
 non terminal            expr_list;
