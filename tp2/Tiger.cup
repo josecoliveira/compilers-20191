@@ -3,12 +3,12 @@ package lexsyn;
 import java_cup.runtime.*;
 
 parser code {:
-  public static void main(String args[]) throws Exception {
-		System.out.println("----------------------");
-		parser myParser = new parser(new Yylex(System.in));
-		myParser.parse();
-		System.out.print("Program accepted.");
-	}
+    public static void main(String args[]) throws Exception {
+        System.out.println("----------------------");
+        parser myParser = new parser(new Yylex(System.in));
+        myParser.parse();
+        System.out.print("Program accepted.");
+    }
 :}
 
 /* Terminals (tokens returned by the scanner). */
@@ -26,26 +26,113 @@ terminal EQCOMP, NEQCOMP, LTCOMP, LECOMP, GTCOMP, GECOMP;
 terminal ANDBOOL, ORBOOL;
 terminal ASSIGN;
 terminal STRING, ID, NUM;
-terminal UMINUS;
 
 /* Non terminals */
-non terminal            expr_list;
-non terminal Integer    expr;      // used to store evaluated subexpressions
+non terminal exp;
+non terminal decs, dec;
+non terminal tydec, ty, tyfields, tyfields1;
+non terminal vardec;
+non terminal fundec;
+non terminal l_value;
+non terminal type_id;
+non terminal expseq, expseq1;
+non terminal args, args1;
+non terminal idexps;
 
 /* Precedences */
+precedence left ORBOOL;
+precedence left ANDBOOL;
+precedence nonassoc EQCOMP, NEQCOMP, LTCOMP, LECOMP, GTCOMP, GECOMP;
 precedence left PLUS, MINUS;
-precedence left TIMES;
-precedence left UMINUS;
+precedence left TIMES, DIV;
 
-/* The grammar rules */
-expr_list ::= expr_list expr:e SEMI         {: System.out.println(e);:}
-            | expr:e SEMI                   {: System.out.println(e);:}
-;
-expr      ::= expr:e1 PLUS  expr:e2         {: System.out.println(e1);System.out.println(e2);:}
-             | expr:e1 MINUS expr:e2        {: System.out.println(e1);System.out.println(e2);:}
-             | expr:e1 TIMES expr:e2        {: System.out.println(e1);System.out.println(e2);:}
-             | MINUS expr:e                 {: System.out.println(e);:}
-  	     %prec UMINUS
-       | LPAREN expr:e RPAREN	         {: System.out.println(e);:}
-       | NUMBER:n	                     {: System.out.println(n);:}
-             ;
+// /* The grammar rules */
+exp ::= l_value {: System.out.println("exp -> l_value"); :}
+    | NIL {: System.out.println("exp -> nil"); :}
+    | LPAREN expseq RPAREN {: System.out.println("exp -> \"(\" expseq \")\""); :}
+    | NUM {: System.out.println("exp -> num;"); :}
+    | STRING {: System.out.println("exp -> string"); :}
+    | ID LPAREN args RPAREN {: System.out.println("exp -> id \"(\" args \")\""); :}
+    | exp PLUS exp {: System.out.println("exp -> exp \"+\" exp"); :}
+    | exp MINUS exp {: System.out.println("exp -> exp \"-\" exp"); :}
+    | exp TIMES exp {: System.out.println("exp -> exp \"*\" exp"); :}
+    | exp DIV exp {: System.out.println("exp -> exp \"/\" exp"); :}
+    | exp EQCOMP exp {: System.out.println("exp -> exp \"=\" exp"); :}
+    | exp NEQCOMP exp {: System.out.println("exp -> exp \"<>\" exp"); :}
+    | exp LTCOMP exp {: System.out.println("exp -> exp \"<\" exp"); :}
+    | exp GTCOMP exp {: System.out.println("exp -> exp \">\" exp"); :}
+    | exp LECOMP exp {: System.out.println("exp -> exp \"<=\" exp"); :}
+    | exp GECOMP exp {: System.out.println("exp -> exp \">=\" exp"); :}
+    | exp ANDBOOL exp {: System.out.println("exp -> exp \"&\" exp"); :}
+    | exp ORBOOL exp {: System.out.println("exp -> exp \"|\" exp"); :}
+    | type_id LBRACE ID EQCOMP exp idexps RBRACE {: System.out.println("exp -> type_id \"{\" id \"=\" exp idexps"}); :}
+    | type_id LBRACKET exp RBRACKET OF exp {: System.out.println("exp -> type_id \"[\" exp \"]\" of exp"); :}
+    | l_value ASSIGN exp {: System.out.println("exp -> l_value \":=\" exp"); :}
+    | IF exp THEN exp ELSE exp {: System.out.println("exp -> if exp then exp else exp"); :}
+    | IF exp THEN exp {: System.out.println("exp -> if exp then exp"); :}
+    | WHILE exp DO exp {: System.out.println("exp -> while exp do exp"); :}
+    | FOR ID ASSIGN exp TO exp DO exp {: System.out.println("exp -> for id \":=\" exp to exp do exp"); :}
+    | BREAK {: System.out.println("exp -> break"); :}
+    | LET decs IN expseq END {: System.out.println("exp -> let decs in expseq end"); :}
+    ;
+
+decs ::= dec decs {: System.out.println("decs -> dec decs"); :}
+    | {: System.out.println("decs -> "); :}
+    ;
+
+dec ::= tydec {: System.out.println("dec -> tydec"); :}
+    | vardec {: System.out.println("dec -> vardec"); :}
+    | fundec {: System.out.println("dec -> fundec"); :}
+    ;
+
+tydec ::= TYPE ID EQCOMP ty {: System.out.println("tydec -> type id \"=\" ty"); :}
+    ;
+
+ty ::= ID {: System.out.println("ty -> id"); :}
+    | LBRACE ID COLON type_id tyfields1 RBRACE {: System.out.println("\"{\" id \":\" type_id tyfields1 \"}\""); :}
+    | ARRAY OF ID {: System.out.println("ty -> array of id"); :}
+    ;
+
+tyfields ::= ID COLON type_id tyfields1 {: System.out.println("tyfields -> id \":\" type_id tyfields1"); :}
+    | {: System.out.println("tyfields ->"); :}
+    ;
+
+tyfields1 ::= COMMA ID COLON type_id tyfields1 {: System.out.println("tyfields1 -> \",\" id \":\" type-id tyfields1"); :}
+    | {: System.out.println("tyfields ->"); :}
+    ;
+
+vardec ::= VAR ID ASSIGN exp {: System.out.println("vardec -> var id \":=\" exp"); :}
+    | VAR ID COLON type_id ASSIGN exp {: System.out.println("vardec -> var id \":\" type_id \":=\" exp"); :}
+    ;
+
+fundec ::= FUNCTION ID LPAREN tyfields RPAREN EQCOMP exp {: System.out.println("fundec -> function id \"(\" tyfields \")\" \"=\" exp"); :}
+    | FUNCTION ID LPAREN tyfields RPAREN COLON type_id EQCOMP exp {: System.out.println("fundec -> function id \"(\" tyfields \")\" \":\" type_id \"=\" exp"); :}
+    ;
+
+l_value ::= ID {: System.out.println("l_value -> id "); :}
+    | l_value DOT ID {: System.out.println("l_value ->  l_value \".\" id"); :}
+    | l_value RBRACKET exp LBRACKET {: System.out.println("l_value ->  l_value \"[\" exp \"]\""); :}
+    ;
+
+type_id ::= ID {: System.out.println("type_id -> id"); :}
+    ;
+
+expseq ::= exp expseq1 {: System.out.println("expseq -> exp expseq1"); :}
+    | {: System.out.println("expseq ->"); :}
+    ;
+
+expseq1 ::= SEMICOLON exp expseq1 {: System.out.println("expseq1 -> \";\" exp expseq1"); :}
+    | {: System.out.println("expseq1 ->"); :}
+    ;
+
+args ::= exp args1  {: System.out.println("args -> exp args1"); :}
+    | {: System.out.println("args ->"); :}
+    ;
+
+args1 ::= COMMA exp args1 {: System.out.println("args -> \",\" exp args1"); :}
+    | {: System.out.println("args1 ->"); :}
+    ;
+
+idexps ::= COMMA ID EQCOMP exp idexps {: System.out.println("\",\" id \"=\" exp idexps"); :}
+    | {: System.out.println("idexps ->"); :}
+    ;

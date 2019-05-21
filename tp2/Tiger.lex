@@ -192,7 +192,6 @@ type {
 }
 
 (\}) {
-    System.out.print("<right_brace> ");
     System.out.print("<RBRACE> ");
     bw.write("<RBRACE>");
     return new Symbol(sym.RBRACE);
