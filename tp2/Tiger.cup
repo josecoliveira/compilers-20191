@@ -1,9 +1,11 @@
 package lexsyn;
 
 import java_cup.runtime.*;
+import Absyn.*;
 
 parser code {:
     public static void main(String args[]) throws Exception {
+        Print(PrintStream(File("Absyn.txt");
         System.out.println("----------------------");
         parser myParser = new parser(new Yylex(System.in));
         myParser.parse();
